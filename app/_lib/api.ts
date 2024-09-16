@@ -1,5 +1,4 @@
 import { createClient } from "@/utils/supabase/client"; // Import Supabase client
-import { redirect } from "next/navigation";
 
 type SignUpType = {
   email: string;

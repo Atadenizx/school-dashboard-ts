@@ -2,7 +2,7 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-export default function SideProfileHeader({ user }: any) {
+export default function SideProfileHeader({ user }: unknown) {
   const { first_name: firstName, last_name: lastName } =
     user.user.user_metadata;
   console.log(user);
