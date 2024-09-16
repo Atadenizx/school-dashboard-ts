@@ -16,11 +16,11 @@ async function getTeacherData(): Promise<Teacher[]> {
   return teachers ?? [];
 }
 
-export default async function page() {
+export default async function Page() {
   const data = await getTeacherData();
 
   return (
-    <div className="container mx-auto text-black p-4">
+    <div className="container mx-auto text-black py-4 px-2 no-scrollbar overflow-hidden">
       <DataTable columns={columns} data={data} />
     </div>
   );

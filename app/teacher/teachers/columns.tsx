@@ -5,6 +5,7 @@ import { MoreHorizontal, ArrowUpDown } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,6 +14,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 export type Teacher = {
   id: number;
@@ -25,6 +28,28 @@ export type Teacher = {
 };
 
 export const columns: ColumnDef<Teacher>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     accessorKey: "subject",
     header: ({ column }) => {
@@ -133,7 +158,9 @@ export const columns: ColumnDef<Teacher>[] = [
               Copy teacher email
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Go to teacher profile</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => console.log(teacher.id)}>
+              <Link href={`./teachers/${teacher.id}`}>View Profile</Link>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
