@@ -2,11 +2,15 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-export default function SideProfileHeader({ user }: unknown) {
-  const { first_name: firstName, last_name: lastName } =
-    user.user.user_metadata;
-  console.log(user);
-  console.log(firstName);
+type firstAndLastName = {
+  firstName: string;
+  lastName: string;
+};
+
+export default function SideProfileHeader({
+  firstName,
+  lastName,
+}: firstAndLastName) {
   return (
     <div className="flex gap-2">
       <div>
