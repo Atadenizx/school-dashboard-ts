@@ -4,7 +4,6 @@ import { StudentAttendanceChart } from "@/app/_components/teacher/StudentAttenda
 import React from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import Header from "@/app/_components/teacher/Header";
 
 export default async function Page() {
   const supabase = createClient();

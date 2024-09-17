@@ -10,6 +10,10 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
+import CopyButton from "@/app/_components/CopyButton";
+import { Button } from "@/components/ui/button";
+import { MessageSquareMore } from "lucide-react";
+import DeleteTeacherButton from "@/app/_components/teacher/teacherProfile/DeleteTeacherButton";
 
 export default async function TeacherProfilePage({
   params,
@@ -24,6 +28,7 @@ export default async function TeacherProfilePage({
     .single();
 
   const {
+    id,
     name,
     age,
     email,
@@ -41,7 +46,7 @@ export default async function TeacherProfilePage({
       <Card className="grid grid-cols-2 gap-4">
         <div className="col-span-1">
           <CardHeader>
-            <div className="flex gap-2 align-bottom">
+            <div className="flex gap-2 align-bottom items-baseline">
               <CardTitle>{name}</CardTitle>
               <CardDescription>
                 <Badge variant="outline">{subject} Teacher</Badge>
@@ -63,12 +68,30 @@ export default async function TeacherProfilePage({
                   <h2>Subject: {subject}</h2>
                   <h2>Grades: {grades}</h2>
                   <h2>Teaching Hours: {teachingHours}</h2>
-                  <h2>Email: {email}</h2>
+                  <div className="flex flex-col">
+                    <h2>Email:</h2>
+                    <div className="flex align-middle justify-center items-center gap-2 hover:bg-gray-200 rounded-lg">
+                      <h2 className="">{email}</h2>
+                      <CopyButton copyItem={email} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-start">
+                <div className="p-2">
+                  <Button variant="default">
+                    <MessageSquareMore />
+                  </Button>
+                </div>
+                <div className="p-2">
+                  <Button variant="secondary">Edit</Button>
+                </div>
+                <div className="p-2">
+                  <DeleteTeacherButton id={id} name={name} />
                 </div>
               </div>
             </div>
           </CardContent>
-          <CardFooter></CardFooter>
         </div>
         <div className="col-span-1 flex items-center justify-center">
           <Image

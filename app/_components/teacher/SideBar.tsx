@@ -22,7 +22,6 @@ export default async function SideBar() {
         <SideProfileHeader firstName={firstName} lastName={lastName} />
       </div>
       <div className="space-y-4 border-b pb-4">
-        <h2 className="text-gray-500">Menu</h2>
         <SidebarMenu />
       </div>
       <div>
