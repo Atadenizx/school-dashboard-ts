@@ -14,6 +14,7 @@ import CopyButton from "@/app/_components/CopyButton";
 import { Button } from "@/components/ui/button";
 import { MessageSquareMore } from "lucide-react";
 import DeleteTeacherButton from "@/app/_components/teacher/teacherProfile/DeleteTeacherButton";
+import EditTeacherForm from "@/app/_components/teacher/teacherProfile/EditTeacherForm";
 
 export default async function TeacherProfilePage({
   params,
@@ -70,7 +71,7 @@ export default async function TeacherProfilePage({
                   <h2>Teaching Hours: {teachingHours}</h2>
                   <div className="flex flex-col">
                     <h2>Email:</h2>
-                    <div className="flex align-middle justify-center items-center gap-2 hover:bg-gray-200 rounded-lg">
+                    <div className="flex align-middle justify-between items-center gap-2 hover:bg-gray-200 rounded-lg">
                       <h2 className="">{email}</h2>
                       <CopyButton copyItem={email} />
                     </div>
@@ -84,7 +85,7 @@ export default async function TeacherProfilePage({
                   </Button>
                 </div>
                 <div className="p-2">
-                  <Button variant="secondary">Edit</Button>
+                  <EditTeacherForm teacher={teacher} />
                 </div>
                 <div className="p-2">
                   <DeleteTeacherButton id={id} name={name} />
