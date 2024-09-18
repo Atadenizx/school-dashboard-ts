@@ -14,7 +14,7 @@ import CopyButton from "@/app/_components/CopyButton";
 import { Button } from "@/components/ui/button";
 import { MessageSquareMore } from "lucide-react";
 import DeleteTeacherButton from "@/app/_components/teacher/teacherProfile/DeleteTeacherButton";
-import EditTeacherForm from "@/app/_components/teacher/teacherProfile/EditTeacherForm";
+import { EditTeacherDialog } from "@/app/_components/teacher/teacherProfile/EditTeacherDialog";
 
 export default async function TeacherProfilePage({
   params,
@@ -27,6 +27,10 @@ export default async function TeacherProfilePage({
     .select("*")
     .eq("id", params.teacherId)
     .single();
+
+  if (!teacher) {
+    return null;
+  }
 
   const {
     id,
@@ -49,9 +53,9 @@ export default async function TeacherProfilePage({
           <CardHeader>
             <div className="flex gap-2 align-bottom items-baseline">
               <CardTitle>{name}</CardTitle>
-              <CardDescription>
+              <div>
                 <Badge variant="outline">{subject} Teacher</Badge>
-              </CardDescription>
+              </div>
             </div>
           </CardHeader>
           <CardContent>
@@ -85,7 +89,7 @@ export default async function TeacherProfilePage({
                   </Button>
                 </div>
                 <div className="p-2">
-                  <EditTeacherForm teacher={teacher} />
+                  <EditTeacherDialog teacher={teacher} />
                 </div>
                 <div className="p-2">
                   <DeleteTeacherButton id={id} name={name} />
