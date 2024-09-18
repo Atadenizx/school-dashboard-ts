@@ -34,13 +34,14 @@ export default function DeleteTeacherButton({
     }
     toast.success("Successfully deleted");
     console.log("deleted");
-    return router.back();
+    router.refresh();
+    return router.push("/teacher/teachers");
   }
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger>
-        <Button variant="destructive">Delete</Button>
+      <AlertDialogTrigger className="bg-red-400 text-white py-2 px-3 rounded-lg">
+        Delete
       </AlertDialogTrigger>
       <AlertDialogContent className="bg-black outline-none border-none">
         <AlertDialogHeader>

@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createClient } from "@/utils/supabase/client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 // Define form validation schema using Zod
 const formSchema = z.object({
@@ -39,10 +40,14 @@ export type TeacherFormType = {
 };
 
 type EditTeacherFormProps = {
-  teacher: TeacherFormType; // Ensure the teacher has the `id` property
+  teacher: TeacherFormType;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const EditTeacherForm = ({ teacher }: EditTeacherFormProps) => {
+export const EditTeacherForm: React.FC<EditTeacherFormProps> = ({
+  teacher,
+  setIsOpen,
+}) => {
   const { register, handleSubmit, formState } = useForm<TeacherFormType>({
     resolver: zodResolver(formSchema),
     defaultValues: teacher, // Prefill with teacher data
@@ -72,6 +77,7 @@ export const EditTeacherForm = ({ teacher }: EditTeacherFormProps) => {
       console.error("Error updating teacher:", error);
     } else {
       toast.success("Teacher information is successfully updated");
+      setIsOpen(false); // Close the dialog after submission
       router.refresh(); // Refresh the page after the update
     }
   };

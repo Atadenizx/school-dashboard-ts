@@ -53,7 +53,7 @@ export default async function TeacherProfilePage({
           <CardHeader>
             <div className="flex gap-2 align-bottom items-baseline">
               <CardTitle>{name}</CardTitle>
-              <div>
+              <div className="">
                 <Badge variant="outline">{subject} Teacher</Badge>
               </div>
             </div>

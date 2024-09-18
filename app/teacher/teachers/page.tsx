@@ -3,13 +3,16 @@ import { columns, Teacher } from "./columns";
 import React from "react";
 import { DataTable } from "@/app/_components/data-table";
 
+// Disable caching for the whole page
+export const fetchCache = "force-no-store";
+
 async function getTeacherData(): Promise<Teacher[]> {
   const supabase = createClient();
 
   const { data: teachers, error } = await supabase.from("teachers").select("*");
 
   if (error) {
-    console.log(error);
+    console.error("Error fetching teachers:", error);
     return [];
   }
 

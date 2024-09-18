@@ -23,10 +23,11 @@ export const EditTeacherDialog = ({ teacher }: EditTeacherDialogProps) => {
   return (
     <div>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogTrigger>
-          <Button onClick={() => setIsOpen(true)} variant="secondary">
-            Edit
-          </Button>
+        <DialogTrigger
+          className="bg-gray-200 py-2 px-3 rounded-lg"
+          onClick={() => setIsOpen(true)}
+        >
+          Edit
         </DialogTrigger>
         <DialogContent className="bg-black border-none">
           <DialogHeader>
@@ -37,7 +38,7 @@ export const EditTeacherDialog = ({ teacher }: EditTeacherDialogProps) => {
           </DialogHeader>
 
           {/* Render the form component and pass the teacher data */}
-          <EditTeacherForm teacher={teacher} />
+          <EditTeacherForm setIsOpen={setIsOpen} teacher={teacher} />
         </DialogContent>
       </Dialog>
     </div>
