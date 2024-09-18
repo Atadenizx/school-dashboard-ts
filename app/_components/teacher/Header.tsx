@@ -4,13 +4,9 @@ import HeaderNav from "./HeaderNav";
 
 export default function Header() {
   return (
-    <div className="flex justify-between">
-      <div>
-        <HeaderNav />
-      </div>
-      <div>
-        <SearchBar />
-      </div>
+    <div className="flex justify-between min-w-full items-baseline">
+      <div></div>
+      <div></div>
     </div>
   );
 }

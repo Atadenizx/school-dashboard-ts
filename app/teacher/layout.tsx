@@ -1,17 +1,23 @@
 import Header from "@/app/_components/teacher/Header";
 import RightBar from "@/app/_components/teacher/RightBar";
 import SideBar from "@/app/_components/teacher/SideBar";
+import { Button } from "@/components/ui/button";
+import { ChevronDown, ChevronLeft, Sidebar } from "lucide-react";
 import React from "react";
+import HeaderNav from "../_components/teacher/HeaderNav";
+import SearchBar from "../_components/teacher/SearchBar";
+import ResHeaderBtn from "../_components/ResHeaderBtn";
+import { SidebarMenu } from "../_components/teacher/SidebarMenu";
 
-type childrenType = {
+type ChildrenType = {
   children: React.ReactNode;
 };
 
-export default function Layout({ children }: childrenType) {
+export default function Layout({ children }: ChildrenType) {
   return (
-    <div className="grid grid-cols-12 h-screen">
+    <div className="lg:grid lg:grid-cols-12 min-h-screen">
       <div
-        className="col-span-2 bg-white shadow-lg overflow-y-auto"
+        className="hidden lg:flex col-span-2 bg-white shadow-lg overflow-y-auto"
         style={{
           scrollbarWidth: "none", // For Firefox
           msOverflowStyle: "none", // For Internet Explorer and Edge
@@ -41,12 +47,21 @@ export default function Layout({ children }: childrenType) {
           }
         `}
         </style>
-        <header className="text-2xl font-bold px-8 py-4 mt-4">
-          <Header />
+        <header className="flex items-center justify-between w-screen bg-blue-300 p-4">
+          <div className="hidden sm:flex sm:justify-between w-screen h-full items-center bg-red-500 text-2xl font-bold">
+            <HeaderNav />
+            <SearchBar />
+          </div>
+          <div className="justify-self-end w-full sm:w-fit lg:hidden">
+            <ResHeaderBtn>
+              <SidebarMenu />
+            </ResHeaderBtn>
+          </div>
         </header>
+
         <div>{children}</div>
       </div>
-      <div className="col-span-2 bg-white shadow-lg">
+      <div className="hidden lg:flex  col-span-2 bg-white shadow-lg">
         <RightBar />
       </div>
     </div>
