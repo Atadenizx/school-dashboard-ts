@@ -16,6 +16,8 @@ import { MessageSquareMore } from "lucide-react";
 import DeleteTeacherButton from "@/app/_components/teacher/teacherProfile/DeleteTeacherButton";
 import { EditTeacherDialog } from "@/app/_components/teacher/teacherProfile/EditTeacherDialog";
 
+export const fetchCache = "force-no-store";
+
 export default async function TeacherProfilePage({
   params,
 }: {
@@ -47,7 +49,7 @@ export default async function TeacherProfilePage({
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4 min-h-screen">
       <Card className="grid grid-cols-2 gap-4">
         <div className="col-span-1">
           <CardHeader>
@@ -75,8 +77,8 @@ export default async function TeacherProfilePage({
                   <h2>Teaching Hours: {teachingHours}</h2>
                   <div className="flex flex-col">
                     <h2>Email:</h2>
-                    <div className="flex align-middle justify-between items-center gap-2 hover:bg-gray-200 rounded-lg">
-                      <h2 className="">{email}</h2>
+                    <div className="flex flex-wrap align-middle justify-between items-center gap-2 hover:bg-gray-200 rounded-lg">
+                      <h2 className="break-all">{email}</h2>
                       <CopyButton copyItem={email} />
                     </div>
                   </div>
@@ -98,7 +100,7 @@ export default async function TeacherProfilePage({
             </div>
           </CardContent>
         </div>
-        <div className="col-span-1 flex items-center justify-center">
+        <div className="col-span-1 mt-6 mr-4 xl:pb-4 lg:flex lg:items-center lg:justify-center">
           <Image
             src="https://via.placeholder.com/500x500?text=Teacher+Image"
             width={500}

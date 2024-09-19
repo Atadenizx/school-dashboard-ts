@@ -4,6 +4,7 @@ import { StudentAttendanceChart } from "@/app/_components/teacher/StudentAttenda
 import React from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
+import { StudentsGenderBarChart } from "../_components/teacher/StudentsGenderBarChart";
 
 export default async function Page() {
   const supabase = createClient();
@@ -19,19 +20,23 @@ export default async function Page() {
   }
 
   return (
-    <div className="p-6 flex flex-col gap-6">
-      <main className="flex flex-col lg:flex-row gap-6">
-        <section className="flex-1 p-4 rounded-lg">
-          <Piechart />
+    <div className="p-6 flex flex-col gap-6 min-h-screen">
+      <main className="flex flex-col gap-6">
+        <section className="grid grid-cols-2 2xl:grid-rows-2 gap-4 p-4 rounded-lg">
+          <div className="col-span-1 2xl:row-span-1 block">
+            <Piechart />
+          </div>
+          <div className="col-span-1 2xl:row-span-2 2xl:flex 2xl:items-center 2xl:justify-center">
+            <StudentAttendanceChart />
+          </div>
+          <div className="hidden 2xl:block 2xl:col-span-1 2xl:row-span-1  bg-green-500">
+            <StudentsGenderBarChart />
+          </div>
         </section>
-        <section className="flex-1 p-4 rounded-lg">
-          <StudentAttendanceChart />
+        <section className=" p-4 rounded-lg">
+          <FinanceChart />
         </section>
       </main>
-
-      <footer className="flex-1 p-4 rounded-lg">
-        <FinanceChart />
-      </footer>
     </div>
   );
 }

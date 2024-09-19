@@ -61,7 +61,7 @@ export default function Layout({ children }: ChildrenType) {
 
         <div className="max-h-screen">{children}</div>
       </div>
-      <div className="hidden xl:flex min-h-screen xl:col-span-2 bg-red-500 shadow-lg">
+      <div className="hidden xl:flex min-h-screen xl:col-span-2 w-full 2xl:justify-center bg-white shadow-lg">
         <RightBar />
       </div>
     </div>

@@ -23,7 +23,7 @@ export default async function Page() {
   const data = await getTeacherData();
 
   return (
-    <div className="container mx-auto text-black py-4 px-2 no-scrollbar overflow-hidden">
+    <div className="container mx-auto text-black py-4 px-2 min-h-screen no-scrollbar overflow-hidden">
       <DataTable columns={columns} data={data} />
     </div>
   );
