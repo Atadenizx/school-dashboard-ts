@@ -4,7 +4,7 @@ import Events from "./Events";
 
 export default function RightBar() {
   return (
-    <div className="py-4">
+    <div className="py-4 flex flex-col h-fit">
       <div>
         <CalendarComp />
       </div>

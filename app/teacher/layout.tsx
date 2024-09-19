@@ -15,9 +15,9 @@ type ChildrenType = {
 
 export default function Layout({ children }: ChildrenType) {
   return (
-    <div className="lg:grid lg:grid-cols-12 min-h-screen">
+    <div className="lg:grid lg:grid-cols-12 max-h-screen">
       <div
-        className="hidden lg:flex col-span-2 bg-white shadow-lg overflow-y-auto"
+        className="hidden lg:flex lg:col-span-2 2xl:col-span-1 bg-white shadow-lg min-h-screen overflow-y-auto"
         style={{
           scrollbarWidth: "none", // For Firefox
           msOverflowStyle: "none", // For Internet Explorer and Edge
@@ -34,7 +34,7 @@ export default function Layout({ children }: ChildrenType) {
         <SideBar />
       </div>
       <div
-        className="col-span-8 bg-gray-200 flex flex-col overflow-y-auto"
+        className="col-span-10 xl:col-span-8 2xl:col-span-9  bg-gray-200 flex flex-col overflow-y-auto max-w-screen"
         style={{
           scrollbarWidth: "none", // For Firefox
           msOverflowStyle: "none", // For Internet Explorer and Edge
@@ -47,21 +47,21 @@ export default function Layout({ children }: ChildrenType) {
           }
         `}
         </style>
-        <header className="flex items-center justify-between w-screen bg-blue-300 p-4">
-          <div className="hidden sm:flex sm:justify-between w-screen h-full items-center bg-red-500 text-2xl font-bold">
+        <header className="p-4 flex md:w-full lg:w-full">
+          <div className="hidden sm:flex sm:justify-between lg:justify-between lg:mt-4 lg:mx-7 w-full items-center  text-2xl font-bold">
             <HeaderNav />
             <SearchBar />
           </div>
-          <div className="justify-self-end w-full sm:w-fit lg:hidden">
+          <div className="justify-self-end w-full pr-4 sm:w-fit lg:hidden">
             <ResHeaderBtn>
               <SidebarMenu />
             </ResHeaderBtn>
           </div>
         </header>
 
-        <div>{children}</div>
+        <div className="max-h-screen">{children}</div>
       </div>
-      <div className="hidden lg:flex  col-span-2 bg-white shadow-lg">
+      <div className="hidden xl:flex min-h-screen xl:col-span-2 bg-red-500 shadow-lg">
         <RightBar />
       </div>
     </div>

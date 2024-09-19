@@ -17,7 +17,7 @@ export default function ResHeaderBtn({ children }: ChildrenType) {
         <Button
           onClick={() => setIsOpen(true)}
           variant="outline"
-          className="bg-red-500"
+          className="bg-white text-black shadow-lg"
           size="icon"
         >
           <ChevronLeft className="h-4 w-4" />
@@ -32,7 +32,11 @@ export default function ResHeaderBtn({ children }: ChildrenType) {
             {children}
           </div>
           <div className="col-span-1 w-fit h-fit justify-self-end">
-            <Button variant="default" onClick={() => setIsOpen(false)}>
+            <Button
+              variant="ghost"
+              className="text-black"
+              onClick={() => setIsOpen(false)}
+            >
               <CircleX />
             </Button>
           </div>
