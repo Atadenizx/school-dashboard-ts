@@ -16,17 +16,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 
-export type Teacher = {
+export type Student = {
   id: string;
   name: string;
+  class: string;
   age: number;
+  parent: string;
   email: string;
-  subject: string;
-  grades: string;
-  teaching_hours: number;
 };
 
-export const columns: ColumnDef<Teacher>[] = [
+export const columns: ColumnDef<Student>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -50,20 +49,6 @@ export const columns: ColumnDef<Teacher>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "subject",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Subject
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
-  {
     accessorKey: "name",
     header: ({ column }) => {
       return (
@@ -78,14 +63,28 @@ export const columns: ColumnDef<Teacher>[] = [
     },
   },
   {
-    accessorKey: "grades",
+    accessorKey: "age",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Grades
+          Age
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "class",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Class
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -100,34 +99,6 @@ export const columns: ColumnDef<Teacher>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: "teaching_hours",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Teaching H
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: "age",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Age
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -154,7 +125,7 @@ export const columns: ColumnDef<Teacher>[] = [
                 toast.success("Email is copied to your clipboard");
               }}
             >
-              Copy teacher email
+              Copy student email
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => console.log(teacher.id)}>

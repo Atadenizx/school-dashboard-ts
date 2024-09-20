@@ -37,11 +37,13 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  filterItem: string;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  filterItem,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -50,6 +52,8 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+
+  console.log("data:", data);
 
   const table = useReactTable({
     data,
@@ -74,10 +78,12 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-center pb-4">
         <Input
-          placeholder="Filter subjects..."
-          value={(table.getColumn("subject")?.getFilterValue() as string) ?? ""}
+          placeholder={`Filter ${filterItem}...`}
+          value={
+            (table.getColumn(filterItem)?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
-            table.getColumn("subject")?.setFilterValue(event.target.value)
+            table.getColumn(filterItem)?.setFilterValue(event.target.value)
           }
           className="max-w-sm bg-white rounded-full"
         />

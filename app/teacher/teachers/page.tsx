@@ -24,7 +24,7 @@ export default async function Page() {
 
   return (
     <div className="container mx-auto text-black py-4 px-2 min-h-screen no-scrollbar overflow-hidden">
-      <DataTable columns={columns} data={data} />
+      <DataTable filterItem="subjects" columns={columns} data={data} />
     </div>
   );
 }
