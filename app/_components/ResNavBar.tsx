@@ -5,6 +5,10 @@ import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+type Props = {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
 const menuItems = [
   { label: "Home", path: "/teacher" },
   { label: "Teachers", path: "/teacher/teachers" },
@@ -22,9 +26,7 @@ const menuItems = [
   { label: "Announcements", path: "/teacher/announcements" },
 ];
 
-export default function ResNavBar({
-  setIsOpen,
-}: React.Dispatch<React.SetStateAction<boolean>>) {
+export default function ResNavBar({ setIsOpen }: Props) {
   const [isMenuOpen, setIsMenuOpen] = useState<string>("menu");
   const supabase = createClient();
   const router = useRouter(); // For navigating after logout
