@@ -47,7 +47,7 @@ export const SidebarMenu = () => {
             <Link
               href={item.path}
               className={cn(
-                "flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-200",
+                "flex items-center space-x-2 p-2 rounded-lg  hover:bg-gray-200",
                 pathname === item.path && "bg-gray-200" // Active state
               )}
             >
