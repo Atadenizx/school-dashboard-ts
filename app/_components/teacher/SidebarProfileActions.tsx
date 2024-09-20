@@ -12,7 +12,7 @@ export const SidebarProfileActions = () => {
   async function onLogout() {
     const { error } = await supabase.auth.signOut();
     if (!error) {
-      router.push("/login"); // Redirect to login page after logout
+      router.push("/"); // Redirect to login page after logout
       router.refresh(); // Clear cache and session data
     } else {
       console.error("Logout error:", error.message);

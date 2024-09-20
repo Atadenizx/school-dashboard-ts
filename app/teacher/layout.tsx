@@ -8,6 +8,7 @@ import HeaderNav from "../_components/teacher/HeaderNav";
 import SearchBar from "../_components/teacher/SearchBar";
 import ResHeaderBtn from "../_components/ResHeaderBtn";
 import { SidebarMenu } from "../_components/teacher/SidebarMenu";
+import { SidebarProfileActions } from "../_components/teacher/SidebarProfileActions";
 
 type ChildrenType = {
   children: React.ReactNode;
@@ -54,7 +55,14 @@ export default function Layout({ children }: ChildrenType) {
           </div>
           <div className="justify-self-end w-full pr-4 sm:w-fit lg:hidden">
             <ResHeaderBtn>
-              <SidebarMenu />
+              <div className="grid grid-cols-2">
+                <div className="col-span-1">
+                  <SidebarMenu />
+                </div>
+                <div className="col-span-1">
+                  <SidebarProfileActions />
+                </div>
+              </div>
             </ResHeaderBtn>
           </div>
         </header>
