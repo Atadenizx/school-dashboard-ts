@@ -107,7 +107,7 @@ export const columns: ColumnDef<Student>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const teacher = row.original;
+      const student = row.original;
 
       return (
         <DropdownMenu>
@@ -121,15 +121,15 @@ export const columns: ColumnDef<Student>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() => {
-                navigator.clipboard.writeText(teacher.email);
+                navigator.clipboard.writeText(student.email);
                 toast.success("Email is copied to your clipboard");
               }}
             >
               Copy student email
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => console.log(teacher.id)}>
-              <Link href={`./teachers/${teacher.id}`}>View Profile</Link>
+            <DropdownMenuItem onClick={() => console.log(student.id)}>
+              <Link href={`./students/${student.id}`}>View Profile</Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
