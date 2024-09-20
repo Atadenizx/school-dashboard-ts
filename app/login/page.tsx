@@ -21,10 +21,14 @@ export default async function page() {
     console.log(error);
   }
   if (data.user) {
-    if (data.user.user_metadata.role === "admin") {
-      redirect("/teacher");
-    } else {
-      redirect("/student");
+    if (data.user.user_metadata.role === "student") {
+      return redirect("/student");
+    }
+    if (
+      data.user.user_metadata.role === "admin" ||
+      data.user.user_metadata.role === "teacher"
+    ) {
+      return redirect("/teacher");
     }
   }
 

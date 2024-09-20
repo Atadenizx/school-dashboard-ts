@@ -16,11 +16,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { signUp } from "../_lib/api";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"; // Assuming shadcn/ui for RadioGroup
+import { signUp } from "../_lib/api"; // Adjust your API method for creating a user
 import { Progress } from "@/components/ui/progress";
 import { useState } from "react";
 import { ChevronLeft } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
 
+// Extend the form schema to include the role field.
 const formSchema = z.object({
   email: z
     .string()
@@ -38,34 +41,75 @@ const formSchema = z.object({
     message: "Last name must be at least 2 characters.",
   }),
   age: z.string().transform((age) => Number(age)),
+  role: z.enum(["student", "teacher"]), // New field for role
 });
 
 export function SignupForm() {
   const [step, setStep] = useState(1);
   const router = useRouter();
+  const supabase = createClient();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
+      role: "student", // Default role can be student
     },
   });
 
   // 2. Define a submit handler.
   async function onSubmit(data: z.infer<typeof formSchema>) {
     try {
-      const { res, error } = await signUp(data); // Await the login function
+      // 1. Sign up the user first with all the required fields
+      const { res, error } = await signUp({
+        email: data.email,
+        password: data.password,
+        firstName: data.firstName, // Ensure you pass these fields
+        lastName: data.lastName,
+        age: data.age,
+      });
 
       if (error) {
-        console.error("Login error:", error.message);
-      } else if (res) {
-        console.log("Signed up successfully:", res);
-        // Handle successful login, like redirecting the user
-        router.push("/login");
+        console.error("Signup error:", error.message);
+        return;
+      }
+
+      // Access the `user` from `res`
+      const user = res?.user;
+
+      // 2. Update user metadata after signup
+      if (user) {
+        const { error: metadataError } = await supabase.auth.updateUser({
+          data: {
+            first_name: data.firstName,
+            last_name: data.lastName,
+            age: data.age,
+            role: data.role, // This is where you set the role
+          },
+        });
+
+        if (user) {
+          console.log("inserting user");
+          console.log("inserting user");
+          console.log("inserting user", user);
+          await supabase.from("users").insert({
+            auth_id: user.id,
+            first_name: user.user_metadata.first_name, // replace with actual data
+            last_name: user.user_metadata.last_name, // replace with actual data
+            email: user.email,
+          });
+        }
+
+        if (metadataError) {
+          console.error("Error updating user metadata:", metadataError.message);
+        } else {
+          console.log("User signed up successfully with metadata");
+          router.push("/login");
+        }
       }
     } catch (error) {
-      console.error("Error during login:", error);
+      console.error("Error during signup:", error);
     }
   }
 
@@ -74,7 +118,6 @@ export function SignupForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         {step === 1 ? (
           <>
-            {" "}
             <FormField
               control={form.control}
               name="email"
@@ -84,9 +127,6 @@ export function SignupForm() {
                   <FormControl>
                     <Input placeholder="Email" {...field} />
                   </FormControl>
-                  <FormDescription>
-                    {/* This is your public display name. */}
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -107,13 +147,12 @@ export function SignupForm() {
             <div className="text-center">
               <p>Step 1/2</p>
               <Progress value={50} max={100} />
-            </div>{" "}
+            </div>
             <Button
               onClick={async () => {
-                const isValid = await form.trigger(["email", "password"]); // Validate email and password
-                console.log(isValid);
+                const isValid = await form.trigger(["email", "password"]);
                 if (isValid) {
-                  setStep(2); // Move to step 2 only if valid
+                  setStep(2);
                 }
               }}
               className="w-full"
@@ -121,10 +160,9 @@ export function SignupForm() {
               Next
             </Button>
           </>
-        ) : (
-          ""
-        )}
-        {step === 2 ? (
+        ) : null}
+
+        {step === 2 && (
           <>
             <FormField
               control={form.control}
@@ -135,9 +173,6 @@ export function SignupForm() {
                   <FormControl>
                     <Input placeholder="First Name" {...field} />
                   </FormControl>
-                  <FormDescription>
-                    {/* This is your public display name. */}
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -168,6 +203,30 @@ export function SignupForm() {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Select Role</FormLabel>
+                  <RadioGroup
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    className="flex space-x-4"
+                  >
+                    <FormItem>
+                      <FormLabel>Student</FormLabel>
+                      <RadioGroupItem value="student" />
+                    </FormItem>
+                    <FormItem>
+                      <FormLabel>Teacher</FormLabel>
+                      <RadioGroupItem value="teacher" />
+                    </FormItem>
+                  </RadioGroup>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <div className="text-center">
               <p>Last step!</p>
               <Progress value={100} max={100} />
@@ -186,8 +245,6 @@ export function SignupForm() {
               </Button>
             </div>
           </>
-        ) : (
-          ""
         )}
       </form>
     </Form>

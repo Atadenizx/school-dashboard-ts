@@ -1,14 +1,25 @@
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default async function page() {
   const supabase = createClient();
 
-  // const { data, error } = await supabase.auth.getUser();
-  // if (error || !data?.user) {
-  //   redirect("/login");
-  // }
+  const { data, error } = await supabase.auth.getUser();
+  console.log("user data:", data);
+  if (error || !data?.user) {
+    redirect("/login");
+  }
+  if (data.user.user_metadata.role === "student") {
+    redirect("/student");
+  }
+  if (
+    data.user.user_metadata.role === "admin" ||
+    data.user.user_metadata.role === "teacher"
+  ) {
+    redirect("/teacher");
+  }
 
   return (
     <div className="bg-gray-200 min-w-screen min-h-screen flex flex-col">

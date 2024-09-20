@@ -13,19 +13,21 @@ export default function ResHeaderBtn() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="w-full relative bg-white rounded-lg">
+    <div className="w-full relative">
       {!isOpen && (
-        <Button
-          onClick={() => setIsOpen(!isOpen)}
-          variant="outline"
-          className="bg-white absolute right-0 top-0 text-black shadow-lg"
-          size="icon"
-        >
-          <ChevronLeft className="h-4 w-4" />
-        </Button>
+        <div className="w-full flex justify-end">
+          <Button
+            onClick={() => setIsOpen(!isOpen)}
+            variant="outline"
+            className="bg-white  text-black shadow-lg"
+            size="icon"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+        </div>
       )}
       {isOpen && (
-        <div className="h-full  relative z-10">
+        <div className="h-full bg-white rounded-lg relative z-10">
           <div className="overflow-scroll">
             <ResNavBar setIsOpen={setIsOpen} />
           </div>

@@ -8,11 +8,19 @@ export default async function PrivatePage() {
   const { data, error } = await supabase.auth.getUser();
   console.log(data);
   if (error || !data?.user) {
-    redirect("/login");
+    return redirect("/login");
   }
 
-  if (data?.user?.user_metadata?.role === "admin") {
-    redirect("/teacher");
+  if (
+    data?.user?.user_metadata?.role === "admin" ||
+    data?.user?.user_metadata?.role === "teacher"
+  ) {
+    return redirect("/teacher");
+  }
+
+  if (!data?.user?.user_metadata?.role) {
+    // Show loading spinner while role is being fetched
+    return <div>Loading...</div>;
   }
 
   return <p>Hello {data?.user?.email}</p>;

@@ -1,21 +1,33 @@
-import Header from "@/app/_components/teacher/Header";
 import RightBar from "@/app/_components/teacher/RightBar";
 import SideBar from "@/app/_components/teacher/SideBar";
-import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronLeft, Sidebar } from "lucide-react";
 import React from "react";
 import HeaderNav from "../_components/teacher/HeaderNav";
 import SearchBar from "../_components/teacher/SearchBar";
 import ResHeaderBtn from "../_components/ResHeaderBtn";
-import { SidebarMenu } from "../_components/teacher/SidebarMenu";
-import { SidebarProfileActions } from "../_components/teacher/SidebarProfileActions";
-import ResNavBar from "../_components/ResNavBar";
+import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
 
 type ChildrenType = {
   children: React.ReactNode;
 };
 
-export default function Layout({ children }: ChildrenType) {
+export default async function Layout({ children }: ChildrenType) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.auth.getUser();
+  console.log(data);
+  if (error || !data?.user) {
+    return redirect("/login");
+  }
+
+  if (data?.user?.user_metadata?.role === "student") {
+    return redirect("/student");
+  }
+
+  if (!data?.user?.user_metadata?.role) {
+    // Show loading spinner while role is being fetched
+    return <div className="text-white text-3xl">Loading...</div>;
+  }
   return (
     <div className="lg:grid lg:grid-cols-12 max-h-screen">
       <div
