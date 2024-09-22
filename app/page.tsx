@@ -7,16 +7,12 @@ export default async function page() {
   const supabase = createClient();
 
   const { data, error } = await supabase.auth.getUser();
-  console.log("user data:", data);
-  if (error || !data?.user) {
-    redirect("/login");
-  }
-  if (data.user.user_metadata.role === "student") {
+  if (data?.user?.user_metadata.role === "student") {
     redirect("/student");
   }
   if (
-    data.user.user_metadata.role === "admin" ||
-    data.user.user_metadata.role === "teacher"
+    data?.user?.user_metadata.role === "admin" ||
+    data?.user?.user_metadata.role === "teacher"
   ) {
     redirect("/teacher");
   }

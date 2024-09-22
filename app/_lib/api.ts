@@ -47,3 +47,15 @@ export async function signUp(data: SignUpType) {
 
   return { res, error };
 }
+
+export async function getAvailableUsers() {
+  const supabase = createClient();
+
+  const { data: users, error } = await supabase.from("users").select("*");
+
+  if (error) {
+    console.error(error.message);
+    return error;
+  }
+  return users;
+}

@@ -1,6 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { createClient } from "@/utils/supabase/client";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/app/_lib/store";
+import {
+  setWantedUserFirstName,
+  setWantedUserId,
+  setWantedUserLastName,
+} from "@/app/_lib/features/messaging/messagesSlice"; // Adjust the path as needed
 
 type AvailableUser = {
   auth_id: string;
@@ -14,54 +21,38 @@ type TypeAvailableUsers = AvailableUser[];
 
 interface UsersListProps {
   availableUsers: TypeAvailableUsers;
-  senderId: string; // Specify that senderId is a string
 }
 
 const supabase = createClient();
 
-async function sendMessage(
-  senderId: string,
-  receiverId: string,
-  messageText: string
-) {
-  const { data, error } = await supabase.from("messages").insert([
-    {
-      sender_id: senderId,
-      receiver_id: receiverId,
-      message_text: messageText,
-    },
-  ]);
+export default function UsersList({ availableUsers }: UsersListProps) {
+  const dispatch = useDispatch();
+  const currentUserId = useSelector(
+    (state: RootState) => state.messages.currentUserId
+  );
 
-  if (error) {
-    console.error("Error sending message:", error.message);
-    return null;
+  let filteredUsersWOCurrUser = [];
+
+  if (!currentUserId) {
+    return <h1 className="text-black text-center">Getting Users...</h1>;
   }
 
-  return data;
-}
-
-export default function UsersList({
-  availableUsers,
-  senderId,
-}: UsersListProps) {
-  const [wantedUserId, setWantedUserId] = useState<string>("");
-
-  async function sendMsg() {
-    const data = await sendMessage(senderId, wantedUserId, "hello2");
-    return data;
+  if (currentUserId) {
+    filteredUsersWOCurrUser = availableUsers.filter(
+      (user) => user.auth_id !== currentUserId
+    );
   }
 
   return (
-    <ul>
-      {availableUsers.map((user) => (
+    <ul className="w-fit min-h-screen gap-1 flex flex-col px-2">
+      {filteredUsersWOCurrUser.map((user) => (
         <li
-          className="text-black"
+          className="text-black border text-center mt-1 border-gray-200 shadow-lg w-fit p-2 rounded-lg bg-white hover:cursor-pointer"
           key={user.id}
           onClick={() => {
-            console.log("clicked", wantedUserId);
-
-            setWantedUserId(user.auth_id);
-            sendMsg(); // Optionally send message when a user is clicked
+            dispatch(setWantedUserId(user.auth_id));
+            dispatch(setWantedUserFirstName(user.first_name));
+            dispatch(setWantedUserLastName(user.last_name));
           }}
         >
           <h1>
